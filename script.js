@@ -228,7 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function initParticles() {
-      const count = Math.floor((w * h) / 10000); // densità in base all'area
+      const count = Math.floor((w * h) / 9000); // densità in base all'area
       particles = Array.from({ length: count }, () => ({
         x: Math.random() * w,
         y: Math.random() * h,
@@ -299,3 +299,4 @@ document.addEventListener('DOMContentLoaded', () => {
     resize(); draw();
   }
 });
+
