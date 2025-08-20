@@ -1,278 +1,298 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Marco Servidio — Portfolio | Sviluppatore Full-Stack e UI/UX Designer</title>
-  <meta name="description" content="Portfolio di Marco Servidio Sviluppatore Web e UI/UX Designer. Progetti selezionati, servizi, contatti e presenza online." />
-  <meta name="keywords" content="portfolio, web developer, ui ux designer, frontend, react, design, consulenza" />
-  <meta name="theme-color" content="#1a1a1a" />
+/* ==========================================================
+   Portfolio One-Page (Marco Servidio)
+   Modifiche incluse:
+   - Branding & contenuti personalizzati
+   - Progetti reali (Medico Sereno, Askhole, Programma Ricami)
+   - Integrazione form con Formspree + "copia email"
+   ========================================================== */
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Lato:wght@400;500;700&display=swap" rel="stylesheet" />
-  <!-- Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/J6MdG6fZ0Zy3Rk0rGqGZs3GZ8a5xF4r2w1o0H3m4Xl9qYH3q5y5J3eWq4p8C4e2y1l9hQJ5Yg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <!-- Styles -->
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <!-- ================= Preloader ================= -->
-  <div id="preloader" aria-hidden="true">
-    <div class="loader-mark" aria-label="Caricamento in corso" role="status">
-      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-    </div>
-  </div>
+document.addEventListener('DOMContentLoaded', () => {
+  // ----- Preloader -----
+  window.addEventListener('load', () => {
+    const pre = document.getElementById('preloader');
+    pre?.classList.add('hidden');
+    setTimeout(() => pre?.remove(), 500);
+  });
 
-  <!-- ================= Navbar ================= -->
-  <header class="site-header" id="top" aria-label="Navigazione principale">
-    <nav class="nav container">
-      <a href="#top" class="brand" aria-label="Homepage">
-        <span class="brand-mark" aria-hidden="true"></span>
-        <span class="brand-text">[Il tuo Nome e Cognome]</span>
-      </a>
+  // ----- Year in footer -----
+  document.getElementById('year').textContent = new Date().getFullYear();
 
-      <button class="nav-toggle" id="navToggle" aria-label="Apri/chiudi menu" aria-expanded="false" aria-controls="navMenu">
-        <span class="bar" aria-hidden="true"></span>
-        <span class="bar" aria-hidden="true"></span>
-        <span class="bar" aria-hidden="true"></span>
-      </button>
+  // ----- Mobile nav toggle -----
+  const navToggle = document.getElementById('navToggle');
+  const navMenu = document.getElementById('navMenu');
+  navToggle?.addEventListener('click', () => {
+    const open = navMenu.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', String(open));
+  });
+  document.querySelectorAll('.nav-link').forEach(a =>
+    a.addEventListener('click', () => navMenu.classList.remove('open'))
+  );
 
-      <ul class="nav-links" id="navMenu">
-        <li><a href="#about" class="nav-link">Chi Sono</a></li>
-        <li><a href="#projects" class="nav-link">Progetti</a></li>
-        <li><a href="#services" class="nav-link">Servizi</a></li>
-        <li><a href="#contact" class="nav-link btn btn-outline">Contatti</a></li>
-      </ul>
-    </nav>
-  </header>
+  // ----- Smooth scroll -----
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', e => {
+      const id = link.getAttribute('href');
+      if (id && id.length > 1) {
+        const target = document.querySelector(id);
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          history.pushState(null, '', id);
+          if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+          target.focus({ preventScroll: true });
+        }
+      }
+    });
+  });
 
-  <!-- ================= Hero ================= -->
-  <section class="hero container" id="hero" aria-label="Introduzione">
-    <div class="hero-content">
-      <h1 class="hero-title">[Il tuo Nome e Cognome]</h1>
-      <h2 class="hero-subtitle">
-        <span class="muted">Sono</span>
-        <span class="typewriter" aria-live="polite" aria-atomic="true">
-          <!-- testo dinamico inserito da JS -->
-        </span>
-        <span class="cursor" aria-hidden="true">|</span>
-      </h2>
-      <p class="hero-bio">
-        Trasformo idee complesse in esperienze digitali eleganti, intuitive e performanti.
-        Specializzato in <strong>[React e Node.js]</strong> e design human-centered.
-      </p>
-      <div class="hero-cta">
-        <a href="#projects" class="btn btn-primary">Scopri i miei lavori</a>
-        <a href="#contact" class="btn btn-ghost">Contattami</a>
-      </div>
-      <div class="hero-social" aria-label="Profili social">
-        <a href="#" aria-label="LinkedIn" class="social"><i class="fab fa-linkedin-in"></i></a>
-        <a href="#" aria-label="GitHub" class="social"><i class="fab fa-github"></i></a>
-        <a href="#" aria-label="Dribbble" class="social"><i class="fab fa-dribbble"></i></a>
-      </div>
-    </div>
+  // ----- Scrollspy -----
+  const sections = [...document.querySelectorAll('section[id]')];
+  const navLinks = [...document.querySelectorAll('.nav-link')];
+  const spy = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      const id = entry.target.getAttribute('id');
+      const link = navLinks.find(a => a.getAttribute('href') === `#${id}`);
+      if (entry.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        link?.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-40% 0px -50% 0px', threshold: 0.01 });
+  sections.forEach(s => spy.observe(s));
 
-    <!-- Canvas animazione astratta -->
-    <canvas id="constellation" role="img" aria-label="Animazione astratta decorativa"></canvas>
-  </section>
+  // ----- AOS (tiny) -----
+  const aosEls = document.querySelectorAll('.aos');
+  const aos = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const delay = e.target.getAttribute('data-aos-delay') || 0;
+        setTimeout(() => e.target.classList.add('in'), Number(delay));
+        aos.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  aosEls.forEach(el => aos.observe(el));
 
-  <!-- ================= About ================= -->
-  <section id="about" class="section container" aria-labelledby="about-title">
-    <div class="grid-2">
-      <div class="about-media aos" data-aos="fade-in">
-        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=900&auto=format&fit=crop" alt="Ritratto professionale di [Il tuo Nome e Cognome]" class="avatar" />
-      </div>
-      <div class="about-content">
-        <h2 id="about-title" class="section-title aos" data-aos="slide-up">Chi Sono</h2>
-        <p class="section-text aos" data-aos="slide-up" data-aos-delay="100">
-          Sono un <strong>Appassionato sviluppatore Full-Stack e UI/UX Designer</strong> con un approccio iterativo e collaborativo.
-          Unisco pensiero sistemico e attenzione maniacale ai dettagli per creare prodotti
-          <em>user-centric</em> che generano impatto reale su utenti e business.
-        </p>
+  // ----- Typewriter rotating -----
+  const phrases = ["Sviluppatore Web", "UI/UX Designer", "Creatore di Soluzioni Digitali"];
+  const twEl = document.querySelector('.typewriter');
+  const typingSpeed = 70, pause = 1200, eraseSpeed = 45;
+  let idx = 0, char = 0, typing = true;
+  function tick() {
+    const word = phrases[idx % phrases.length];
+    if (typing) {
+      twEl.textContent = word.slice(0, ++char);
+      if (char === word.length) { typing = false; return setTimeout(tick, pause); }
+    } else {
+      twEl.textContent = word.slice(0, --char);
+      if (char === 0) { typing = true; idx++; }
+    }
+    setTimeout(tick, typing ? typingSpeed : eraseSpeed);
+  }
+  if (twEl) tick();
 
-        <div class="skills">
-          <div class="skill-group aos" data-aos="fade-in" data-aos-delay="150">
-            <h3><i class="fa-solid fa-code"></i> Linguaggi</h3>
-            <ul class="pill-list">
-              <li>JavaScript</li>
-              <li>TypeScript</li>
-              <li>HTML5</li>
-              <li>Python</li>
-              <li>CSS3 / SCSS</li>
-              <li>SQL</li>
-            </ul>
-          </div>
-          <div class="skill-group aos" data-aos="fade-in" data-aos-delay="200">
-            <h3><i class="fa-brands fa-react"></i> Framework & Librerie</h3>
-            <ul class="pill-list">
-              <li>React</li>
-              <li>Next.js</li>
-              <li>Node.js</li>
-              <li>Express</li>
-              <li>GSAP</li>
-            </ul>
-          </div>
-          <div class="skill-group aos" data-aos="fade-in" data-aos-delay="250">
-            <h3><i class="fa-brands fa-figma"></i> Tool di Design</h3>
-            <ul class="pill-list">
-              <li>Figma</li>
-              <li>Adobe XD</li>
-              <li>Illustrator</li>
-              <li>Design System</li>
-              <li>Photoshop</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  // ----- Project Modal -----
+  const PROJECTS = {
+    p1: {
+      title: "Medico Sereno",
+      desc: "Gestionale medico: pazienti, appuntamenti, cartelle cliniche e fatturazione. Migrazione da desktop (Tkinter) a web.",
+      bullets: [
+        "Obiettivi: UX per studi medici, sicurezza dati e backup.",
+        "Sfide: conformità normativa italiana e performance.",
+        "Ruolo: architettura, sviluppo full-stack e UI/UX."
+      ],
+      live: "#",   // TODO: link demo se disponibile
+      git: "#"     // TODO: link repo
+    },
+    p2: {
+      title: "Askhole",
+      desc: "App mobile di chat AI con personalità sarcastica; modello freemium, backend Flask.",
+      bullets: [
+        "Obiettivi: intrattenimento e viralità social.",
+        "Sfide: moderazione contenuti e scalabilità API.",
+        "Ruolo: UX, Flutter client, integrazione AI."
+      ],
+      live: "#",   // TODO
+      git: "#"     // TODO
+    },
+    p3: {
+      title: "Programma Ricami",
+      desc: "Gestione lotti, taglie, workflow di ricamo e generazione PDF di produzione.",
+      bullets: [
+        "Obiettivi: flusso rapido dalla scelta file alla selezione prodotti.",
+        "Sfide: coerenza taglie tra PDF e UI, usabilità operatori.",
+        "Ruolo: design UX e sviluppo front-end/back-end."
+      ],
+      live: "#",   // TODO
+      git: "#"     // TODO
+    }
+  };
 
-  <!-- ================= Projects ================= -->
-  <section id="projects" class="section container" aria-labelledby="projects-title">
-    <h2 id="projects-title" class="section-title aos" data-aos="slide-up">Progetti Selezionati</h2>
+  const modal = document.getElementById('modal');
+  const modalTitle = document.getElementById('modal-title');
+  const modalDesc = document.getElementById('modal-desc');
+  const modalList = document.getElementById('modal-list');
+  const modalLive = document.getElementById('modal-live');
+  const modalGit = document.getElementById('modal-git');
 
-    <div class="projects-grid">
-      <!-- Project Card 1 -->
-      <article class="project-card aos" data-aos="fade-in" tabindex="0" aria-describedby="p1-desc">
-        <div class="project-media">
-          <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1200&auto=format&fit=crop" alt="Anteprima progetto Dashboard Analytics" />
-        </div>
-        <div class="project-body">
-          <h3 class="project-title">Dashboard Analytics</h3>
-          <p id="p1-desc" class="project-desc">Piattaforma interattiva per KPI realtime e reportistica.</p>
-          <ul class="tag-list">
-            <li>React</li><li>Node.js</li><li>Socket.io</li>
-          </ul>
-          <div class="project-actions">
-            <a href="#" class="btn btn-ghost-sm" target="_blank" rel="noopener">Live Demo</a>
-            <a href="#" class="btn btn-outline-sm" target="_blank" rel="noopener">Vedi su GitHub</a>
-            <button class="btn btn-primary-sm open-modal" data-project="p1" aria-haspopup="dialog" aria-controls="modal">Dettagli</button>
-          </div>
-        </div>
-      </article>
+  function openModal(id) {
+    const data = PROJECTS[id];
+    if (!data) return;
+    modalTitle.textContent = data.title;
+    modalDesc.textContent = data.desc;
+    modalList.innerHTML = '';
+    data.bullets.forEach(b => {
+      const li = document.createElement('li'); li.textContent = b; modalList.appendChild(li);
+    });
+    modalLive.href = data.live || '#';
+    modalGit.href = data.git || '#';
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    modal.querySelector('.modal-close').focus();
+  }
+  function closeModal() {
+    modal.hidden = true; document.body.style.overflow = '';
+  }
+  document.querySelectorAll('.open-modal').forEach(btn => {
+    btn.addEventListener('click', () => openModal(btn.dataset.project));
+  });
+  modal.addEventListener('click', e => { if (e.target.dataset.close === 'true') closeModal(); });
+  document.addEventListener('keydown', e => { if (!modal.hidden && e.key === 'Escape') closeModal(); });
 
-      <!-- Project Card 2 -->
-      <article class="project-card aos" data-aos="fade-in" data-aos-delay="100" tabindex="0" aria-describedby="p2-desc">
-        <div class="project-media">
-          <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?q=80&w=1200&auto=format&fit=crop" alt="Anteprima progetto eCommerce Headless" />
-        </div>
-        <div class="project-body">
-          <h3 class="project-title">eCommerce Headless</h3>
-          <p id="p2-desc" class="project-desc">Store headless ad alte prestazioni con checkout ottimizzato.</p>
-          <ul class="tag-list">
-            <li>Next.js</li><li>Stripe</li><li>GraphQL</li>
-          </ul>
-          <div class="project-actions">
-            <a href="#" class="btn btn-ghost-sm" target="_blank" rel="noopener">Live Demo</a>
-            <a href="#" class="btn btn-outline-sm" target="_blank" rel="noopener">Vedi su GitHub</a>
-            <button class="btn btn-primary-sm open-modal" data-project="p2" aria-haspopup="dialog" aria-controls="modal">Dettagli</button>
-          </div>
-        </div>
-      </article>
+  // ----- Contact form (Formspree) -----
+  /*
+    Come usare:
+    1) Crea un form su https://formspree.io/ e prendi l'endpoint (es. /f/abcdwxyz)
+    2) Sostituisci FORMSPREE_ENDPOINT qui sotto.
+  */
+  const FORMSPREE_ENDPOINT = "https://formspree.io/f/XXXXYYYY"; // TODO: incolla il tuo endpoint
+  const form = document.getElementById('contactForm');
+  const statusEl = document.getElementById('form-status');
 
-      <!-- Project Card 3 -->
-      <article class="project-card aos" data-aos="fade-in" data-aos-delay="200" tabindex="0" aria-describedby="p3-desc">
-        <div class="project-media">
-          <img src="https://images.unsplash.com/photo-1551817958-20204c6e92c6?q=80&w=1200&auto=format&fit=crop" alt="Anteprima progetto App Booking" />
-        </div>
-        <div class="project-body">
-          <h3 class="project-title">App Booking</h3>
-          <p id="p3-desc" class="project-desc">Prenotazioni smart con UX semplice e flussi guidati.</p>
-          <ul class="tag-list">
-            <li>Flutter</li><li>Firebase</li><li>Figma</li>
-          </ul>
-          <div class="project-actions">
-            <a href="#" class="btn btn-ghost-sm" target="_blank" rel="noopener">Live Demo</a>
-            <a href="#" class="btn btn-outline-sm" target="_blank" rel="noopener">Vedi su GitHub</a>
-            <button class="btn btn-primary-sm open-modal" data-project="p3" aria-haspopup="dialog" aria-controls="modal">Dettagli</button>
-          </div>
-        </div>
-      </article>
-    </div>
-  </section>
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = form.name.value.trim();
+    const email = form.email.value.trim();
+    const message = form.message.value.trim();
+    let ok = true;
 
-  <!-- Project Modal -->
-  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-desc" hidden>
-    <div class="modal-backdrop" data-close="true"></div>
-    <div class="modal-content" role="document">
-      <button class="modal-close" aria-label="Chiudi modale" data-close="true"><i class="fa-solid fa-xmark"></i></button>
-      <h3 id="modal-title">Titolo Progetto</h3>
-      <p id="modal-desc" class="modal-text">Descrizione estesa del progetto, obiettivi, sfide affrontate e ruolo.</p>
-      <ul class="modal-list" id="modal-list"></ul>
-      <div class="modal-actions">
-        <a id="modal-live" class="btn btn-primary-sm" target="_blank" rel="noopener">Live Demo</a>
-        <a id="modal-git" class="btn btn-outline-sm" target="_blank" rel="noopener">GitHub</a>
-      </div>
-    </div>
-  </div>
+    // Validazione base + messaggi
+    const setErr = (input, msg='') => {
+      const field = input.closest('.form-field');
+      const err = field.querySelector('.error');
+      err.textContent = msg;
+      if (msg) ok = false;
+    };
+    setErr(form.name); setErr(form.email); setErr(form.message);
 
-  <!-- ================= Services ================= -->
-  <section id="services" class="section container" aria-labelledby="services-title">
-    <h2 id="services-title" class="section-title aos" data-aos="slide-up">Cosa Posso Fare Per Te</h2>
-    <div class="services-grid">
-      <article class="service-card aos" data-aos="fade-in">
-        <div class="service-icon"><i class="fa-solid fa-code"></i></div>
-        <h3>Sviluppo Web</h3>
-        <p>Realizzazione di siti e app web veloci, responsive e scalabili, dal front-end al back-end.</p>
-      </article>
-      <article class="service-card aos" data-aos="fade-in" data-aos-delay="100">
-        <div class="service-icon"><i class="fa-regular fa-object-group"></i></div>
-        <h3>UI/UX Design</h3>
-        <p>Interfacce intuitive e coinvolgenti basate su ricerca, test e metriche di usabilità.</p>
-      </article>
-      <article class="service-card aos" data-aos="fade-in" data-aos-delay="200">
-        <div class="service-icon"><i class="fa-solid fa-lightbulb"></i></div>
-        <h3>Consulenza Tecnica</h3>
-        <p>Analisi, ottimizzazione performance e strategia per raggiungere i tuoi obiettivi digitali.</p>
-      </article>
-    </div>
-  </section>
+    if (!name) setErr(form.name, 'Inserisci il tuo nome.');
+    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    if (!emailRe.test(email)) setErr(form.email, 'Email non valida.');
+    if (!message) setErr(form.message, 'Scrivi un messaggio.');
 
-  <!-- ================= Contact ================= -->
-  <section id="contact" class="section container" aria-labelledby="contact-title">
-    <h2 id="contact-title" class="section-title aos" data-aos="slide-up">Mettiamoci in Contatto</h2>
-    <p class="section-text aos" data-aos="fade-in" data-aos-delay="100">
-      Hai un'idea interessante o vuoi semplicemente salutarmi? Scrivimi! Sono sempre aperto a nuove collaborazioni.
-    </p>
+    if (!ok) return;
 
-    <form id="contactForm" class="contact-form aos" data-aos="fade-in" novalidate aria-describedby="form-helper">
-      <div class="form-field">
-        <label for="name">Nome</label>
-        <input id="name" name="name" type="text" placeholder="Il tuo nome" required aria-required="true" />
-        <span class="error" role="alert"></span>
-      </div>
-      <div class="form-field">
-        <label for="email">Email</label>
-        <input id="email" name="email" type="email" placeholder="nome@dominio.com" required aria-required="true" />
-        <span class="error" role="alert"></span>
-      </div>
-      <div class="form-field">
-        <label for="message">Messaggio</label>
-        <textarea id="message" name="message" rows="5" placeholder="Come posso aiutarti?" required aria-required="true"></textarea>
-        <span class="error" role="alert"></span>
-      </div>
-      <button class="btn btn-primary" type="submit">Invia Messaggio</button>
-      <p id="form-helper" class="form-helper">Oppure scrivimi cliccando
-        <a href="mailto:marco.serv96@gmail.com">mail</a>
-      </p>
-    </form>
+    // Invio a Formspree
+    try {
+      statusEl.textContent = 'Invio in corso...';
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: new FormData(form)
+      });
+      if (res.ok) {
+        statusEl.textContent = 'Grazie! Ti risponderò al più presto.';
+        form.reset();
+      } else {
+        statusEl.textContent = 'Ops! Qualcosa è andato storto. Puoi scrivermi direttamente via email.';
+      }
+    } catch {
+      statusEl.textContent = 'Connessione assente o bloccata. Riprova più tardi.';
+    }
+  });
 
-    <div class="contact-social aos" data-aos="fade-in" data-aos-delay="150" aria-label="Link ai social">
-      <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
-      <a href="#" class="social"><i class="fab fa-github"></i></a>
-      <a href="#" class="social"><i class="fab fa-dribbble"></i></a>
-    </div>
-  </section>
+  // ----- Copia email -----
+  const copyBtn = document.getElementById('copyEmail');
+  const emailLink = document.getElementById('emailLink');
+  copyBtn?.addEventListener('click', async () => {
+    const email = (emailLink?.textContent || '').trim();
+    try {
+      await navigator.clipboard.writeText(email);
+      copyBtn.textContent = 'Copiata!';
+      setTimeout(() => (copyBtn.textContent = 'Copia email'), 1500);
+    } catch {
+      copyBtn.textContent = 'Copia non riuscita';
+      setTimeout(() => (copyBtn.textContent = 'Copia email'), 1500);
+    }
+  });
 
-  <!-- ================= Footer ================= -->
-  <footer class="footer">
-    <div class="container footer-inner">
-      <p>&copy; <span id="year"></span> Marco Servidio - Tutti i diritti riservati.</p>
-      <a href="#top" class="to-top" aria-label="Torna su"><i class="fa-solid fa-arrow-up"></i></a>
-    </div>
-  </footer>
+  // ----- Canvas Constellation -----
+  const canvas = document.getElementById('constellation');
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    let w, h, particles, mouse = { x: null, y: null };
 
-  <!-- Scripts -->
-  <script src="script.js"></script>
-</body>
-</html>
+    function resize() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = canvas.clientWidth; h = canvas.clientHeight;
+      canvas.width = w * dpr; canvas.height = h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      initParticles();
+    }
+    function initParticles() {
+      const count = Math.floor((w * h) / 10000);
+      particles = Array.from({ length: count }, () => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - .5) * .4,
+        vy: (Math.random() - .5) * .4,
+        r: Math.random() * 1.8 + .6
+      }));
+    }
+    function draw() {
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = 'rgba(255,255,255,.8)';
+      for (const p of particles) {
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+      }
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const p = particles[i], q = particles[j];
+          const dx = p.x - q.x, dy = p.y - q.y;
+          const dist2 = dx * dx + dy * dy;
+          if (dist2 < 120 * 120) {
+            const alpha = 1 - dist2 / (120 * 120);
+            const grad = ctx.createLinearGradient(p.x, p.y, q.x, q.y);
+            grad.addColorStop(0, `rgba(0,123,255,${alpha * .6})`);
+            grad.addColorStop(1, `rgba(23,162,184,${alpha * .6})`);
+            ctx.strokeStyle = grad; ctx.lineWidth = 1;
+            ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y); ctx.stroke();
+          }
+        }
+      }
+      update();
+      requestAnimationFrame(draw);
+    }
+    function update() {
+      for (const p of particles) {
+        if (mouse.x !== null) {
+          const dx = mouse.x - p.x, dy = mouse.y - p.y;
+          const d = Math.hypot(dx, dy);
+          if (d < 140) { p.vx += dx / d * 0.02; p.vy += dy / d * 0.02; }
+        }
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0 || p.x > w) p.vx *= -1;
+        if (p.y < 0 || p.y > h) p.vy *= -1;
+        p.vx *= 0.99; p.vy *= 0.99;
+      }
+    }
+    canvas.addEventListener('mousemove', e => {
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left; mouse.y = e.clientY - rect.top;
+    });
+    canvas.addEventListener('mouseleave', () => { mouse.x = mouse.y = null; });
+    window.addEventListener('resize', resize, { passive: true });
+
+    resize(); draw();
+  }
+});
