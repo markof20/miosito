@@ -142,7 +142,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const modalDesc = document.getElementById('modal-desc');
   const modalList = document.getElementById('modal-list');
   const modalLive = document.getElementById('modal-live');
-  const modalGit = document.getElementById('modal-git');
   const modalImg = document.getElementById('modal-img');
 
   function openModal(id) {
@@ -163,7 +162,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const li = document.createElement('li'); li.textContent = b; modalList.appendChild(li);
     });
     modalLive.href = data.live || '#';
-    modalGit.href = data.git || '#';
     modal.hidden = false;
     document.body.style.overflow = 'hidden';
     // focus management
@@ -304,5 +302,6 @@ document.addEventListener('DOMContentLoaded', () => {
     resize(); draw();
   }
 });
+
 
 
