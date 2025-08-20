@@ -104,42 +104,38 @@ document.addEventListener('DOMContentLoaded', () => {
   // Cursor blink is CSS. If desired, could pause during typing.
 
   // ----- Project Modal -----
-  /** Data per la modale: modifica con i tuoi dettagli **/
-  const PROJECTS = {
-    p1: {
-      title: "Dashboard Analytics",
-      desc: "Pannello real-time con stream di eventi, filtri avanzati e report esportabili.",
-      bullets: [
-        "Obiettivi: insight immediati sui KPI.",
-        "Sfide: performance con 50k eventi/min.",
-        "Ruolo: architettura front-end, UX e data-viz."
-      ],
-      live: "#",
-      git: "#"
-    },
-    p2: {
-      title: "eCommerce Headless",
-      desc: "Headless storefront con caching edge e checkout ottimizzato.",
-      bullets: [
-        "Obiettivi: TTFB < 100ms globale.",
-        "Sfide: sincronizzazione inventario multi-warehouse.",
-        "Ruolo: integrazione API GraphQL, design system."
-      ],
-      live: "#",
-      git: "#"
-    },
-    p3: {
-      title: "App Booking",
-      desc: "Mobile app per prenotazioni con flussi semplificati e notifiche push.",
-      bullets: [
-        "Obiettivi: ridurre drop-off del 30%.",
-        "Sfide: UX omnicanale e offline-first.",
-        "Ruolo: prototipi Figma, implementazione Flutter."
-      ],
-      live: "#",
-      git: "#"
-    }
-  };
+    const PROJECTS = {
+     p1: {
+       title: "Medico Sereno",
+       desc: "Gestionale per studi medici: pazienti, appuntamenti, cartelle cliniche e fatturazione. Migrazione da desktop (Tkinter) a web app.",
+       bullets: [
+         "Obiettivi: UX per medico singolo e piccoli studi.",
+         "Sfide: conformità normativa italiana e performance.",
+         "Ruolo: architettura, sviluppo full-stack e UI/UX."
+       ],
+       live: "#"
+     },
+     p2: {
+       title: "Askhole",
+       desc: "App mobile di chat AI dal tono brillante e sarcastico, modello freemium e backend Flask.",
+       bullets: [
+         "Obiettivi: intrattenimento e viralità social.",
+         "Sfide: moderazione contenuti e scalabilità API.",
+         "Ruolo: UX, Flutter client, integrazione AI."
+       ],
+       live: "#"
+     },
+     p3: {
+       title: "Programma Ricami",
+       desc: "Gestione lotti, taglie e PDF di produzione; flusso rapido dall’import alla selezione prodotti.",
+       bullets: [
+         "Obiettivi: ridurre errori e tempi in produzione.",
+         "Sfide: coerenza taglie tra PDF e UI.",
+         "Ruolo: design UX e sviluppo front/back."
+       ],
+       live: "#"
+     }
+   };
 
   const modal = document.getElementById('modal');
   const modalTitle = document.getElementById('modal-title');
@@ -147,6 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const modalList = document.getElementById('modal-list');
   const modalLive = document.getElementById('modal-live');
   const modalGit = document.getElementById('modal-git');
+  const modalImg = document.getElementById('modal-img');
 
   function openModal(id) {
     const data = PROJECTS[id];
@@ -154,6 +151,14 @@ document.addEventListener('DOMContentLoaded', () => {
     modalTitle.textContent = data.title;
     modalDesc.textContent = data.desc;
     modalList.innerHTML = '';
+   const cardImg = document.querySelector(`[data-project="${id}"], [data-project-card="${id}"]`) 
+     ? document.querySelector(`[data-project="${id}"], [data-project-card="${id}"]`).closest('.project-card').querySelector('.project-media img')
+     : document.querySelector('.projects-grid .open-modal[data-project="'+id+'"]').closest('.project-card').querySelector('.project-media img');
+
+   if (modalImg && cardImg) {
+  modalImg.src = cardImg.getAttribute('src');
+  modalImg.alt = `Anteprima progetto: ${PROJECTS[id].title}`;
+}
     data.bullets.forEach(b => {
       const li = document.createElement('li'); li.textContent = b; modalList.appendChild(li);
     });
@@ -299,4 +304,5 @@ document.addEventListener('DOMContentLoaded', () => {
     resize(); draw();
   }
 });
+
 
