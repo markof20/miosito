@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Marco Servidio — Portfolio | Sviluppatore Full-Stack e UI/UX Designer</title>
+  <meta name="description" content="Portfolio di Marco Servidio: Sviluppatore Full-Stack e UI/UX Designer. Progetti selezionati, servizi e contatti." />
+  <meta name="keywords" content="Marco Servidio, portfolio, full-stack, ui ux, flutter, python, flask, react, design" />
+  <meta name="theme-color" content="#1a1a1a" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Lato:wght@400;500;700&display=swap" rel="stylesheet" />
+  <!-- Icons (niente integrity per evitare blocchi SRI su Pages) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/logo-32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/logo-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/logo-180.png">
+</head>
+<body>
+  <!-- Background layers -->
+  <canvas id="bgCanvas" aria-hidden="true"></canvas>
+  <div class="bg">
+    <div class="bg-gradient" aria-hidden="true"></div>
+    <div class="bg-grid" aria-hidden="true"></div>
+    <div class="bg-noise" aria-hidden="true"></div>
+    <div class="orb orb-1" aria-hidden="true"></div>
+    <div class="orb orb-2" aria-hidden="true"></div>
+  </div>
+  
+  <!-- Fallback se JS è disabilitato -->
+  <noscript>
+    <style>#preloader{display:none!important}</style>
+    <div style="background:#1a1a1a;color:#F8F9FA;padding:12px;text-align:center">
+      Questo sito richiede JavaScript abilitato.
+    </div>
+  </noscript>
+
+  <!-- ================= Preloader ================= -->
+  <div id="preloader" aria-hidden="true">
+    <div class="loader-mark" aria-label="Caricamento in corso" role="status">
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+    </div>
+  </div>
+
+  <!-- ================= Navbar ================= -->
+  <header class="site-header" id="top" aria-label="Navigazione principale">
+    <nav class="nav container">
+      <a href="#top" class="brand" aria-label="Homepage">
+        <img
+          src="assets/logo-32.png"
+          srcset="assets/logo-32.png 1x, assets/logo-192.png 2x"
+          alt="Logo del portfolio"
+          class="brand-logo"
+          width="28" height="28" />
+        <span class="brand-text">Marco Servidio</span>
+      </a>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Apri/chiudi menu" aria-expanded="false" aria-controls="navMenu">
+        <span class="bar" aria-hidden="true"></span>
+        <span class="bar" aria-hidden="true"></span>
+        <span class="bar" aria-hidden="true"></span>
+      </button>
+
+      <ul class="nav-links" id="navMenu">
+        <li><a href="#about" class="nav-link">Chi Sono</a></li>
+        <li><a href="#projects" class="nav-link">Progetti</a></li>
+        <li><a href="#services" class="nav-link">Servizi</a></li>
+        <li><a href="#contact" class="nav-link btn btn-outline">Contatti</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ================= Hero ================= -->
+  <section class="hero container" id="hero" aria-label="Introduzione">
+    <canvas id="heroCanvas" aria-hidden="true"></canvas>
+    <div class="hero-content">
+      <!-- Decorazione hero -->
+      <h1 class="hero-title gradient-text">Marco Servidio</h1>
+      <h2 class="hero-subtitle">
+        <span class="muted">Sono</span>
+        <span class="typewriter" aria-live="polite" aria-atomic="true"></span>
+        <span class="cursor" aria-hidden="true">|</span>
+      </h2>
+      <p class="hero-bio">
+        Trasformo idee complesse in esperienze digitali eleganti, intuitive e performanti.
+        Appassionato di <strong>Python/Flask, Flutter</strong> e front-end <strong>React</strong>, con un approccio di design <em>human-centered</em>.
+      </p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn btn-primary">Scopri i miei lavori</a>
+        <a href="#contact" class="btn btn-ghost">Contattami</a>
+      </div>
+      <div class="hero-social" aria-label="Profili social">
+        <a href="https://www.linkedin.com/in/marco-servidio/" aria-label="LinkedIn" class="social" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://dribbble.com/marco-servidio/" aria-label="Dribbble" class="social" target="_blank" rel="noopener"><i class="fab fa-dribbble"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= METRICHE ================= -->
+  <section class="section metrics" aria-label="Metriche sintetiche">
+    <div class="container metrics-grid">
+      <div class="metric">
+         <div class="metric-value" data-target="6">0</div>
+        <div class="metric-label">Progetti in produzione</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value" data-from="10" data-target="0" data-direction="down" data-decimals="0" data-duration="1000">0</div>
+        <div class="metric-label">bug critici nei programmi consegnati</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value" data-target="100" data-prefix="+">0</div>
+        <div class="metric-label">Grafiche pubblicitarie consegnate</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= About ================= -->
+  <section id="about" class="section container" aria-labelledby="about-title">
+    <div class="grid-2">
+      <div class="about-media aos" data-aos="fade-in">
+        <img src="assets/1734733156777.jpg" alt="Ritratto professionale di Marco Servidio" class="avatar" loading="lazy" />
+      </div>
+      <div class="about-content">
+        <h2 id="about-title" class="section-title aos" data-aos="slide-up">Chi Sono</h2>
+        <p class="section-text aos" data-aos="slide-up" data-aos-delay="100">
+          Sono <strong>Sviluppatore Full-Stack e UI/UX Designer</strong>. Credo in un approccio iterativo e collaborativo,
+          con attenzione ai dettagli e alle metriche. Progetto e sviluppo prodotti
+          <em>user-centric</em> che uniscono performance, accessibilità e un design pulito.
+        </p>
+
+        <div class="skills">
+          <div class="skill-group aos" data-aos="fade-in" data-aos-delay="150">
+            <h3><i class="fa-solid fa-code"></i> Linguaggi</h3>
+            <ul class="pill-list">
+              <li>JavaScript/TypeScript</li><li>Python</li><li>HTML5</li><li>CSS3/SCSS</li><li>SQL</li>
+            </ul>
+          </div>
+          <div class="skill-group aos" data-aos="fade-in" data-aos-delay="200">
+            <h3><i class="fa-brands fa-react"></i> Framework & Librerie</h3>
+            <ul class="pill-list">
+              <li>React</li><li>Next.js</li><li>Node.js</li><li>Flask</li><li>Flutter</li>
+            </ul>
+          </div>
+          <div class="skill-group aos" data-aos="fade-in" data-aos-delay="250">
+            <h3><i class="fa-brands fa-figma"></i> Tool di Design</h3>
+            <ul class="pill-list">
+              <li>Figma</li><li>Adobe XD</li><li>Illustrator</li><li>Design System</li><li>Prototyping</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= Projects ================= -->
+  <section id="projects" class="section container" aria-labelledby="projects-title">
+    <h2 id="projects-title" class="section-title aos" data-aos="slide-up">Progetti Selezionati</h2>
+
+    <div class="projects-grid">
+      <!-- Medico Sereno -->
+      <article class="project-card aos" data-aos="fade-in" data-aos-delay="0" data-aos-offset="120" tabindex="0" aria-describedby="p1-desc">
+        <div class="project-media">
+          <img src="assets/medico-sereno.png" alt="Anteprima Medico Sereno - gestionale medico" loading="lazy" />
+        </div>
+        <div class="project-body">
+          <h3 class="project-title">Medico Sereno</h3>
+          <p id="p1-desc" class="project-desc">Gestionale medico: pazienti, visite, cartelle e fatturazione. Da desktop (Tkinter) a web app.</p>
+          <ul class="tag-list">
+            <li>Python</li><li>Flask</li><li>SQLite/PostgreSQL</li><li>UI/UX</li>
+          </ul>
+          <div class="project-actions">
+            <a href="#" class="btn btn-ghost-sm" target="_blank" rel="noopener">Live Demo</a>
+            <button class="btn btn-primary-sm open-modal" data-project="p1" aria-haspopup="dialog" aria-controls="modal">Dettagli</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Askhole -->
+      <article class="project-card aos" data-aos="fade-in" data-aos-delay="120" data-aos-offset="120" tabindex="0" aria-describedby="p2-desc">
+        <div class="project-media">
+          <img src="assets/ask-hole.png" alt="Anteprima Askhole - app mobile AI" loading="lazy" />
+        </div>
+        <div class="project-body">
+          <h3 class="project-title">Askhole</h3>
+          <p id="p2-desc" class="project-desc">App mobile di chat AI dal tono brillante e sarcastico. Freemium, backend Flask.</p>
+          <ul class="tag-list">
+            <li>Flutter</li><li>Flask</li><li>OpenAI API</li><li>Firebase</li>
+          </ul>
+          <div class="project-actions">
+            <a href="#" class="btn btn-ghost-sm" target="_blank" rel="noopener">Live Demo</a>
+            <button class="btn btn-primary-sm open-modal" data-project="p2" aria-haspopup="dialog" aria-controls="modal">Dettagli</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Programma Ricami -->
+      <article class="project-card aos" data-aos="fade-in" data-aos-delay="240" data-aos-offset="120" tabindex="0" aria-describedby="p3-desc">
+        <div class="project-media">
+          <img src="assets/ricamo.png" alt="Anteprima Programma Ricami - gestione lotti e PDF" loading="lazy" />
+        </div>
+        <div class="project-body">
+          <h3 class="project-title">Programma Ricami</h3>
+          <p id="p3-desc" class="project-desc">Gestione lotti di lavoro, taglie e PDF di produzione con UI semplificata.</p>
+          <ul class="tag-list">
+            <li>Web App</li><li>Node/Express</li><li>React</li><li>PDF</li>
+          </ul>
+          <div class="project-actions">
+            <a href="#" class="btn btn-ghost-sm" target="_blank" rel="noopener">Live Demo</a>
+            <button class="btn btn-primary-sm open-modal" data-project="p3" aria-haspopup="dialog" aria-controls="modal">Dettagli</button>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ================= CTA BAND ================= -->
+  <section class="section cta-band" aria-label="Call to action">
+    <div class="container cta-inner">
+      <div class="cta-text">
+        <h3>Hai un’idea? Costruiamola insieme.</h3>
+        <p>Dal concept al deploy, con performance, accessibilità e design curato.</p>
+      </div>
+      <a href="#contact" class="btn btn-primary">Parliamone</a>
+    </div>
+  </section>
+
+  <!-- Project Modal -->
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-desc" hidden>
+    <div class="modal-backdrop" data-close="true"></div>
+    <div class="modal-content" role="document">
+      <button class="modal-close" aria-label="Chiudi modale" data-close="true"><i class="fa-solid fa-xmark"></i></button>
+      <!-- NEW: immagine del progetto nella modale -->
+      <div class="modal-media"><img id="modal-img" alt="" /></div>
+
+      <h3 id="modal-title">Titolo Progetto</h3>
+      <p id="modal-desc" class="modal-text">Descrizione estesa del progetto, obiettivi, sfide affrontate e ruolo.</p>
+      <ul class="modal-list" id="modal-list"></ul>
+      <div class="modal-actions">
+        <a id="modal-live" class="btn btn-primary-sm" target="_blank" rel="noopener">Live Demo</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= Services ================= -->
+  <section id="services" class="section container" aria-labelledby="services-title">
+    <h2 id="services-title" class="section-title aos" data-aos="slide-up">Cosa Posso Fare Per Te</h2>
+    <div class="services-grid">
+      <article class="service-card aos" data-aos="fade-in">
+        <div class="service-icon"><i class="fa-solid fa-code"></i></div>
+        <h3>Sviluppo Web</h3>
+        <p>Realizzazione di siti e app web veloci, responsive e scalabili, dal front-end al back-end.</p>
+      </article>
+      <article class="service-card aos" data-aos="fade-in" data-aos-delay="100">
+        <div class="service-icon"><i class="fa-regular fa-object-group"></i></div>
+        <h3>UI/UX Design</h3>
+        <p>Interfacce intuitive e coinvolgenti basate su ricerca, test e metriche di usabilità.</p>
+      </article>
+      <article class="service-card aos" data-aos="fade-in" data-aos-delay="200">
+        <div class="service-icon"><i class="fa-solid fa-lightbulb"></i></div>
+        <h3>Consulenza Tecnica</h3>
+        <p>Analisi, ottimizzazione performance e strategia per raggiungere i tuoi obiettivi digitali.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ================= Contact ================= -->
+  <section id="contact" class="section container" aria-labelledby="contact-title">
+    <h2 id="contact-title" class="section-title aos" data-aos="slide-up">Mettiamoci in Contatto</h2>
+    <p class="section-text aos" data-aos="fade-in" data-aos-delay="100">
+      Hai un'idea interessante o vuoi semplicemente salutarmi? Scrivimi! Sono sempre aperto a nuove collaborazioni.
+    </p>
+
+    <form id="contactForm" class="contact-form aos" data-aos="fade-in" novalidate aria-describedby="form-helper">
+      <div class="form-field">
+        <label for="name">Nome</label>
+        <input id="name" name="name" type="text" placeholder="Il tuo nome" required aria-required="true" />
+        <span class="error" role="alert"></span>
+      </div>
+      <div class="form-field">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" placeholder="nome@dominio.com" required aria-required="true" />
+        <span class="error" role="alert"></span>
+      </div>
+      <div class="form-field">
+        <label for="message">Messaggio</label>
+        <textarea id="message" name="message" rows="5" placeholder="Come posso aiutarti?" required aria-required="true"></textarea>
+        <span class="error" role="alert"></span>
+      </div>
+      <button class="btn btn-primary" type="submit">Invia Messaggio</button>
+      <p id="form-helper" class="form-helper">
+        Oppure scrivimi a <a id="emailLink" href="mailto:marco@example.com">marco@example.com</a>
+        <button type="button" id="copyEmail" class="btn btn-ghost-sm" aria-label="Copia email">Copia email</button>
+      </p>
+      <p id="form-status" class="form-helper" role="status" aria-live="polite"></p>
+    </form>
+
+    <div class="contact-social aos" data-aos="fade-in" data-aos-delay="150" aria-label="Link ai social">
+      <a href="https://www.linkedin.com/in/marco-servidio/" class="social" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a>
+      <a href="https://dribbble.com/marco-servidio/" class="social" target="_blank" rel="noopener"><i class="fab fa-dribbble"></i></a>
+    </div>
+  </section>
+
+  <!-- ================= Footer ================= -->
+  <footer class="footer">
+  <div class="container footer-inner">
+    <img src="assets/logo-32.png"
+         srcset="assets/logo-32.png 1x, assets/logo-192.png 2x"
+         alt="" class="brand-logo" width="24" height="24" aria-hidden="true" />
+    <p>&copy; <span id="year"></span> Marco Servidio. Tutti i diritti riservati.</p>
+    <a href="#top" class="to-top" aria-label="Torna su"><i class="fa-solid fa-arrow-up"></i></a>
+  </div>
+</footer>
+
+  <!-- Scripts (non commentare, src relativo) -->
+  <script src="script.js"></script>
+</body>
+</html>
