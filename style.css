@@ -446,3 +446,138 @@ a:hover{color:#5cb3ff}
   opacity: 1;
   transform: translateY(0);
 }
+
+/* ===== CTA band ===== */
+.cta-band{
+  padding: clamp(38px, 6vw, 64px) 0;
+  background:
+    radial-gradient(800px 400px at 85% -10%, rgba(0,123,255,.18), transparent 60%),
+    radial-gradient(700px 360px at 10% 110%, rgba(23,162,184,.18), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+  border-top: 1px solid var(--outline);
+  border-bottom: 1px solid var(--outline);
+}
+.cta-inner{
+  display:flex; align-items:center; justify-content:space-between; gap:1rem;
+  background: rgba(255,255,255,.02);
+  border:1px solid var(--outline); border-radius:20px; padding: clamp(16px, 3vw, 24px);
+  box-shadow: 0 10px 30px rgba(0,0,0,.25);
+}
+.cta-text h3{ margin:0 0 .25rem; font-family:'Montserrat',sans-serif }
+.cta-text p{ margin:0; color: var(--text-muted) }
+@media (max-width:900px){
+  .cta-inner{flex-direction:column; text-align:center}
+}
+
+/* ===== Metriche ===== */
+.metrics{ padding: 32px 0 }
+.metrics-grid{
+  display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: .9rem;
+}
+.metric{
+  background: linear-gradient(180deg,#1a1a1a,#141414);
+  border:1px solid var(--outline); border-radius:16px; padding: 16px;
+  text-align:center; box-shadow: var(--shadow);
+}
+.metric-value{
+  font-family:'Montserrat',sans-serif; font-weight:800;
+  font-size: clamp(1.4rem, .9rem + 2vw, 2.1rem);
+  background: linear-gradient(90deg, #fff, #9ed1ff, #5bd3e2);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.metric-label{ color: var(--text-muted) }
+@media (max-width:800px){ .metrics-grid{ grid-template-columns:1fr } }
+
+/* ===== Social glow ===== */
+.hero-social .social{
+  position:relative; transition: transform .2s ease, box-shadow .25s ease;
+}
+.hero-social .social::after{
+  content:""; position:absolute; inset:-6px; border-radius:50%;
+  background: radial-gradient(closest-side, rgba(0,123,255,.35), transparent 70%);
+  opacity:0; transition: opacity .25s ease;
+}
+.hero-social .social:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(0,123,255,.18);
+}
+.hero-social .social:hover::after{ opacity:1 }
+
+.cta-inner .btn.btn-primary{
+  position: relative; overflow: hidden;
+}
+.cta-inner .btn.btn-primary::after{
+  content:""; position:absolute; top:0; left:-70%; width:45%; height:100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,.25), transparent);
+  transform: skewX(-20deg);
+}
+.cta-inner .btn.btn-primary:hover::after{ animation: shine .75s forwards }
+@keyframes shine{ 100%{ left: 120%; } }
+
+/* Animazione di evidenziazione finale per i counters */
+.metric-value.pop {
+  animation: popHighlight 0.5s ease-out;
+}
+
+@keyframes popHighlight {
+  0% {
+    transform: scale(1);
+    color: #f8f9fa;
+    text-shadow: none;
+  }
+  50% {
+    transform: scale(1.3);
+    color: #007BFF; /* blu primario */
+    text-shadow: 0 0 8px rgba(0, 123, 255, 0.6);
+  }
+  100% {
+    transform: scale(1);
+    color: #f8f9fa;
+    text-shadow: none;
+  }
+}
+
+/* Logo navbar */
+.brand{
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+}
+.brand-logo{
+  width: 28px;
+  height: 28px;
+  display: block;
+  object-fit: contain;
+  transition: transform .15s ease;
+}
+.brand:hover .brand-logo{ transform: scale(1.05); }
+
+@media (max-width: 480px){
+  .brand-logo{ width: 24px; height: 24px; }
+}
+
+#bgCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  filter: blur(2px) opacity(0.5); /* sfondo offuscato e meno intenso */
+  pointer-events: none;           /* evita blocchi sul click */
+}
+
+/* Hero canvas (secondo layer locale) */
+.hero{ position: relative; overflow: hidden; }
+#heroCanvas{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;           /* sotto al contenuto hero */
+  opacity: .45;
+  filter: blur(.5px);
+}
+/* assicurati che il contenuto hero stia sopra */
+.hero > *:not(#heroCanvas){ position: relative; z-index: 1; }
