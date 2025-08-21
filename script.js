@@ -325,4 +325,8 @@ const observer = new IntersectionObserver((entries)=>{
 
 cards.forEach(card=>observer.observe(card));
 
+AOS.init({
+  once: false,   // così si riattiva anche tornando indietro
+  duration: 600  // tempo animazione (puoi personalizzare anche per singola card)
+});
 
