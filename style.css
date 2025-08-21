@@ -437,3 +437,12 @@ a:hover{color:#5cb3ff}
   100%{ left: 125%; }
 }
 
+.project-card{
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all .6s ease;
+}
+.project-card.visible{
+  opacity: 1;
+  transform: translateY(0);
+}
