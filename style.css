@@ -409,4 +409,12 @@ a:hover{color:#5cb3ff}
   box-shadow: 0 0 20px rgba(0,0,0,0.4);
 }
 
+.project-card{
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.project-card:hover{
+  transform: translateY(-6px);
+  box-shadow: 0 8px 25px rgba(0,0,0,.45),
+              0 0 12px rgba(0,123,255,.3);
+}
 
