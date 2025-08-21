@@ -14,10 +14,13 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <!-- Styles -->
   <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/logo-32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/logo-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/logo-180.png">
 </head>
 <body>
   <!-- Background layers -->
+  <canvas id="bgCanvas" aria-hidden="true"></canvas>
   <div class="bg">
     <div class="bg-gradient" aria-hidden="true"></div>
     <div class="bg-grid" aria-hidden="true"></div>
@@ -45,7 +48,12 @@
   <header class="site-header" id="top" aria-label="Navigazione principale">
     <nav class="nav container">
       <a href="#top" class="brand" aria-label="Homepage">
-        <span class="brand-mark" aria-hidden="true"></span>
+        <img
+          src="assets/logo-32.png"
+          srcset="assets/logo-32.png 1x, assets/logo-192.png 2x"
+          alt="Logo del portfolio"
+          class="brand-logo"
+          width="28" height="28" />
         <span class="brand-text">Marco Servidio</span>
       </a>
 
@@ -66,7 +74,9 @@
 
   <!-- ================= Hero ================= -->
   <section class="hero container" id="hero" aria-label="Introduzione">
+    <canvas id="heroCanvas" aria-hidden="true"></canvas>
     <div class="hero-content">
+      <!-- Decorazione hero -->
       <h1 class="hero-title gradient-text">Marco Servidio</h1>
       <h2 class="hero-subtitle">
         <span class="muted">Sono</span>
@@ -86,9 +96,24 @@
         <a href="https://dribbble.com/marco-servidio/" aria-label="Dribbble" class="social" target="_blank" rel="noopener"><i class="fab fa-dribbble"></i></a>
       </div>
     </div>
+  </section>
 
-    <!-- Canvas animazione astratta -->
-    <canvas id="constellation" role="img" aria-label="Animazione astratta decorativa"></canvas>
+  <!-- ================= METRICHE ================= -->
+  <section class="section metrics" aria-label="Metriche sintetiche">
+    <div class="container metrics-grid">
+      <div class="metric">
+         <div class="metric-value" data-target="6">0</div>
+        <div class="metric-label">Progetti in produzione</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value" data-from="10" data-target="0" data-direction="down" data-decimals="0" data-duration="1000">0</div>
+        <div class="metric-label">bug critici nei programmi consegnati</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value" data-target="100" data-prefix="+">0</div>
+        <div class="metric-label">Grafiche pubblicitarie consegnate</div>
+      </div>
+    </div>
   </section>
 
   <!-- ================= About ================= -->
@@ -135,7 +160,7 @@
 
     <div class="projects-grid">
       <!-- Medico Sereno -->
-      <article class="project-card aos" data-aos="fade-in" data-aos-delay="100" data-aos-offset="120" tabindex="0" aria-describedby="p1-desc">
+      <article class="project-card aos" data-aos="fade-in" data-aos-delay="0" data-aos-offset="120" tabindex="0" aria-describedby="p1-desc">
         <div class="project-media">
           <img src="assets/medico-sereno.png" alt="Anteprima Medico Sereno - gestionale medico" loading="lazy" />
         </div>
@@ -153,7 +178,7 @@
       </article>
 
       <!-- Askhole -->
-      <article class="project-card aos" data-aos="fade-in" data-aos-delay="100" data-aos-offset="120" tabindex="0" aria-describedby="p2-desc">
+      <article class="project-card aos" data-aos="fade-in" data-aos-delay="120" data-aos-offset="120" tabindex="0" aria-describedby="p2-desc">
         <div class="project-media">
           <img src="assets/ask-hole.png" alt="Anteprima Askhole - app mobile AI" loading="lazy" />
         </div>
@@ -171,7 +196,7 @@
       </article>
 
       <!-- Programma Ricami -->
-      <article class="project-card aos" data-aos="fade-in" data-aos-delay="200" data-aos-offset="120" tabindex="0" aria-describedby="p3-desc">
+      <article class="project-card aos" data-aos="fade-in" data-aos-delay="240" data-aos-offset="120" tabindex="0" aria-describedby="p3-desc">
         <div class="project-media">
           <img src="assets/ricamo.png" alt="Anteprima Programma Ricami - gestione lotti e PDF" loading="lazy" />
         </div>
@@ -187,6 +212,17 @@
           </div>
         </div>
       </article>
+    </div>
+  </section>
+
+  <!-- ================= CTA BAND ================= -->
+  <section class="section cta-band" aria-label="Call to action">
+    <div class="container cta-inner">
+      <div class="cta-text">
+        <h3>Hai un’idea? Costruiamola insieme.</h3>
+        <p>Dal concept al deploy, con performance, accessibilità e design curato.</p>
+      </div>
+      <a href="#contact" class="btn btn-primary">Parliamone</a>
     </div>
   </section>
 
@@ -268,11 +304,14 @@
 
   <!-- ================= Footer ================= -->
   <footer class="footer">
-    <div class="container footer-inner">
-      <p>&copy; <span id="year"></span> Marco Servidio. Tutti i diritti riservati.</p>
-      <a href="#top" class="to-top" aria-label="Torna su"><i class="fa-solid fa-arrow-up"></i></a>
-    </div>
-  </footer>
+  <div class="container footer-inner">
+    <img src="assets/logo-32.png"
+         srcset="assets/logo-32.png 1x, assets/logo-192.png 2x"
+         alt="" class="brand-logo" width="24" height="24" aria-hidden="true" />
+    <p>&copy; <span id="year"></span> Marco Servidio. Tutti i diritti riservati.</p>
+    <a href="#top" class="to-top" aria-label="Torna su"><i class="fa-solid fa-arrow-up"></i></a>
+  </div>
+</footer>
 
   <!-- Scripts (non commentare, src relativo) -->
   <script src="script.js"></script>
