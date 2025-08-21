@@ -235,7 +235,10 @@ body{
   overflow: hidden;
   border: 1px solid var(--outline);
   background: #0e0e0e;
-  text-align: center;
+  text-align: center;           /* centra inline */
+  display: flex;                /* aggiunto */
+  justify-content: center;      /* centra orizzontale */
+  align-items: center;          /* centra verticale nel box */
 }
 .modal-media img{
   display: block;
@@ -246,6 +249,7 @@ body{
   object-fit: contain;
   border-radius: 12px;
   box-shadow: 0 0 20px rgba(0,0,0,.4);
+  margin: 0 auto;               /* fallback centratura */
 }
 
 /* Testo e lista dentro la modale */
@@ -404,4 +408,5 @@ a:hover{color:#5cb3ff}
   object-fit: contain;
   box-shadow: 0 0 20px rgba(0,0,0,0.4);
 }
+
 
