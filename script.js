@@ -312,4 +312,17 @@ document.addEventListener('mousemove', (e) => {
   hero.style.transform = `translate(${x}px, ${y}px)`;
 });
 
+const cards = document.querySelectorAll('.project-card');
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add('visible');
+    } else {
+      entry.target.classList.remove('visible'); // si riattiva anche in risalita
+    }
+  });
+},{ threshold: 0.2 });
+
+cards.forEach(card=>observer.observe(card));
+
 
