@@ -303,5 +303,13 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+// Parallax su hero text
+const hero = document.querySelector('.hero-content');
+document.addEventListener('mousemove', (e) => {
+  const { innerWidth, innerHeight } = window;
+  const x = (e.clientX / innerWidth - 0.5) * 10; // max ±10px
+  const y = (e.clientY / innerHeight - 0.5) * 10;
+  hero.style.transform = `translate(${x}px, ${y}px)`;
+});
 
 
